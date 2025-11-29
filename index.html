@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khoảnh Khắc Tình Yêu - An Khang & Phương Thảo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #ff4d6d;
+            --secondary-color: #ff8fa3;
+            --light-color: #ffb3c1;
+            --dark-color: #1a1a2e;
+            --accent-color: #ffd166;
+            --text-color: #ffffff;
+            --bg-color: #1a1a2e;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --card-border: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="light"] {
+            --primary-color: #e91e63;
+            --secondary-color: #f48fb1;
+            --light-color: #f8bbd9;
+            --dark-color: #f5f5f5;
+            --accent-color: #ff9800;
+            --text-color: #333333;
+            --bg-color: #f5f5f5;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-color) 0%, var(--bg-color) 50%, #0f3460 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            position: relative;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .back-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .page-title h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            color: var(--light-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 1px solid var(--card-border);
+            text-align: center;
+        }
+
+        .upload-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--secondary-color);
+            border-radius: 15px;
+            padding: 40px 20px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .upload-area.active {
+            border-color: var(--primary-color);
+            background: rgba(255, 77, 109, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover .upload-icon {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .upload-text {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .upload-hint {
+            font-size: 0.9rem;
+            color: var(--light-color);
+            opacity: 0.8;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            margin: 50px 0;
+        }
+
+        .gallery-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--card-border);
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .memory-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+            aspect-ratio: 1;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .memory-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .memory-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .memory-item:hover .memory-img {
+            transform: scale(1.05);
+        }
+
+        .memory-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .memory-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .memory-item:hover .memory-overlay {
+            transform: translateY(0);
+        }
+
+        .memory-title {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .memory-date {
+            font-size: 0.9rem;
+            color: var(--light-color);
+        }
+
+        .memory-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .memory-item:hover .memory-actions {
+            opacity: 1;
+        }
+
+        .memory-action {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+            z-index: 2;
+        }
+
+        .memory-action:hover {
+            background: var(--primary-color);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--light-color);
+        }
+
+        .empty-icon {
+            font-size: 5rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .empty-text {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 95%;
+            max-height: 95%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .modal-img-container {
+            position: relative;
+            max-width: 100%;
+            max-height: 100%;
+            transition: transform 0.3s ease;
+            cursor: grab;
+        }
+
+        .modal-img-container:active {
+            cursor: grabbing;
+        }
+
+        .modal-img, .modal-video {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-video {
+            width: 800px;
+            max-width: 90vw;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1001;
+            transition: background 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--primary-color);
+        }
+
+        .modal-title {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 0 20px;
+        }
+
+        .modal-controls {
+            position: absolute;
+            bottom: 80px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 1001;
+        }
+
+        .modal-control-btn {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .modal-control-btn:hover {
+            background: var(--primary-color);
+        }
+
+        /* Error placeholder */
+        .error-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--light-color);
+            text-align: center;
+            padding: 20px;
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-color);
+        }
+
+        /* Floating elements */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 24px;
+            color: var(--primary-color);
+            opacity: 0.7;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            z-index: 1001;
+            max-width: 300px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification.success {
+            background: #4CAF50;
+        }
+
+        .notification.error {
+            background: #f44336;
+        }
+
+        .notification.info {
+            background: #2196F3;
+        }
+
+        /* File counter */
+        .file-counter {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Upload Instructions */
+        .upload-instructions {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--light-color);
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-title h1 {
+                font-size: 2.5rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .upload-area {
+                padding: 30px 15px;
+            }
+
+            .upload-icon {
+                font-size: 3rem;
+            }
+
+            .modal-controls {
+                bottom: 60px;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title h1 {
+                font-size: 2rem;
+            }
+
+            .upload-title {
+                font-size: 1.5rem;
+            }
+
+            .modal-close {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+
+            .filter-buttons {
+                gap: 10px;
+            }
+
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Floating elements -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-heart"></i> Khoảnh Khắc Tình Yêu
+                </div>
+                <a href="http://ankhangyeuphuongthao.elementfx.com/home.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Về Trang Chính
+                </a>
+            </nav>
+        </header>
+
+        <div class="page-title">
+            <h1>Kỷ Niệm Của Chúng Ta</h1>
+            <p>Nơi lưu giữ những khoảnh khắc đáng nhớ của An Khang và Phương Thảo</p>
+        </div>
+
+        <section class="upload-section">
+            <h2 class="upload-title">Thêm Kỷ Niệm Mới</h2>
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <p class="upload-text">Bấm vào đây để chọn ảnh hoặc video</p>
+                <p class="upload-hint">Hoặc kéo thả file vào đây (Hỗ trợ JPG, PNG, GIF, WebP, MP4, tối đa 20MB)</p>
+                <input type="file" id="fileInput" accept="image/*,video/*" multiple>
+                <div class="file-counter" id="fileCounter" style="display: none;">0</div>
+            </div>
+            <div class="progress-bar" id="progressBar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <p class="upload-instructions">Chọn một hoặc nhiều file để tải lên</p>
+            <div class="loading-spinner" id="uploadSpinner">
+                <div class="spinner"></div>
+                <p>Đang tải lên...</p>
+            </div>
+        </section>
+
+        <section class="gallery-section">
+            <h2 class="gallery-title">Bộ Sưu Tập Kỷ Niệm</h2>
+
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Tất Cả</button>
+                <button class="filter-btn" data-filter="image">Ảnh</button>
+                <button class="filter-btn" data-filter="video">Video</button>
+                <button class="filter-btn" id="refreshBtn">
+                    <i class="fas fa-sync-alt"></i> Làm mới
+                </button>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid">
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <p class="empty-text">Chưa có kỷ niệm nào được thêm vào</p>
+                    <p>Hãy thêm ảnh và video đầu tiên của bạn!</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Được tạo ra với tất cả tình yêu dành cho Phương Thảo</p>
+            <p>❤️ Mãi mãi yêu nhau ❤️</p>
+        </footer>
+    </div>
+
+    <!-- Modal for viewing images/videos -->
+    <div class="modal" id="modal">
+        <button class="modal-close" id="modalClose">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-content">
+            <div class="modal-img-container" id="modalImgContainer">
+                <img class="modal-img" id="modalImg" src="" alt="Kỷ niệm">
+                <video class="modal-video" id="modalVideo" controls>
+                    <source src="" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ video.
+                </video>
+            </div>
+        </div>
+        <div class="modal-title">Kỷ niệm</div>
+        <div class="modal-controls" id="modalControls">
+            <button class="modal-control-btn" id="zoomInBtn" title="Phóng to">
+                <i class="fas fa-search-plus"></i>
+            </button>
+            <button class="modal-control-btn" id="zoomOutBtn" title="Thu nhỏ">
+                <i class="fas fa-search-minus"></i>
+            </button>
+            <button class="modal-control-btn" id="resetZoomBtn" title="Đặt lại kích thước">
+                <i class="fas fa-expand-arrows-alt"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Biến toàn cục để quản lý trạng thái zoom và pan
+        let currentZoom = 1;
+        let isDragging = false;
+        let startX, startY, scrollLeft, scrollTop;
+        const ZOOM_STEP = 0.2;
+        const MAX_ZOOM = 3;
+        const MIN_ZOOM = 1;
+
+        // Tạo trái tim bay
+        function createFloatingHearts() {
+            const container = document.getElementById('floatingHearts');
+            if (!container) return;
+
+            const heartCount = 15;
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = Math.random() * 100 + 'vh';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.opacity = Math.random() * 0.5 + 0.3;
+                container.appendChild(heart);
+            }
+        }
+
+        // Lấy danh sách file từ server
+        async function loadMemoriesFromServer() {
+            try {
+                console.log('Đang tải danh sách file từ server...');
+
+                let response = await fetch('/api/memories');
+
+                if (!response.ok) {
+                    response = await fetch('/api/files');
+                }
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const memories = await response.json();
+                console.log('Dữ liệu nhận được từ server:', memories);
+
+                if (!Array.isArray(memories)) {
+                    console.warn('Dữ liệu trả về không phải là mảng:', memories);
+                    return [];
+                }
+
+                return memories.map(memory => {
+                    const filename = memory.filename || memory.name || '';
+                    const extension = filename.split('.').pop().toLowerCase();
+                    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg'];
+                    const videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv'];
+
+                    let type = 'unknown';
+                    if (imageExtensions.includes(extension)) {
+                        type = 'image';
+                    } else if (videoExtensions.includes(extension)) {
+                        type = 'video';
+                    }
+
+                    return {
+                        filename: filename,
+                        type: memory.type || type,
+                        title: memory.title || `Kỷ niệm`,
+                        date: memory.date || memory.created || memory.uploadDate || new Date().toLocaleDateString('vi-VN')
+                    };
+                });
+
+            } catch (error) {
+                console.error('Lỗi khi tải danh sách file từ server:', error);
+                showNotification('Không thể tải danh sách ảnh từ server. Đảm bảo server đang chạy.', 'error');
+                return [];
+            }
+        }
+
+        // Thêm kỷ niệm mới
+        async function addMemory(file, type) {
+            const formData = new FormData();
+            formData.append('memory', file);
+            formData.append('type', type);
+
+            const uploadSpinner = document.getElementById('uploadSpinner');
+            const progressBar = document.getElementById('progressBar');
+            const progress = document.getElementById('progress');
+
+            if (uploadSpinner) {
+                uploadSpinner.style.display = 'block';
+            }
+
+            if (progressBar) {
+                progressBar.style.display = 'block';
+                progress.style.width = '0%';
+            }
+
+            try {
+                console.log('Đang upload file:', file.name, 'loại:', type);
+
+                const xhr = new XMLHttpRequest();
+
+                xhr.upload.addEventListener('progress', function(e) {
+                    if (e.lengthComputable) {
+                        const percentComplete = (e.loaded / e.total) * 100;
+                        progress.style.width = percentComplete + '%';
+                    }
+                });
+
+                xhr.addEventListener('load', function() {
+                    if (xhr.status === 200) {
+                        const result = JSON.parse(xhr.responseText);
+                        console.log('Kết quả upload:', result);
+
+                        if (result.success) {
+                            showNotification(`Đã thêm kỷ niệm mới: ${result.filename}`, 'success');
+                            refreshMemories();
+                        } else {
+                            showNotification('Có lỗi xảy ra khi tải lên file: ' + (result.error || 'Lỗi không xác định'), 'error');
+                        }
+                    } else {
+                        showNotification('Lỗi khi tải lên file: ' + xhr.statusText, 'error');
+                    }
+                });
+
+                xhr.addEventListener('error', function() {
+                    showNotification('Lỗi kết nối khi tải lên file', 'error');
+                });
+
+                xhr.open('POST', '/upload');
+                xhr.send(formData);
+
+            } catch (error) {
+                console.error('Error uploading file:', error);
+                showNotification('Có lỗi xảy ra khi tải lên file: ' + error.message, 'error');
+            } finally {
+                setTimeout(() => {
+                    if (uploadSpinner) {
+                        uploadSpinner.style.display = 'none';
+                    }
+                    if (progressBar) {
+                        progressBar.style.display = 'none';
+                    }
+                }, 1000);
+            }
+        }
+
+        // Xóa kỷ niệm
+        async function deleteMemory(filename) {
+            if (!confirm('Bạn có chắc chắn muốn xóa kỷ niệm này?')) {
+                return;
+            }
+
+            try {
+                console.log('Đang xóa file:', filename);
+
+                let response = await fetch(`/delete/${encodeURIComponent(filename)}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    response = await fetch(`/api/delete/${encodeURIComponent(filename)}`, {
+                        method: 'DELETE'
+                    });
+                }
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete file from server');
+                }
+
+                showNotification('Đã xóa kỷ niệm', 'success');
+                await refreshMemories();
+            } catch (error) {
+                console.error('Error deleting file from server:', error);
+                showNotification('Lỗi khi xóa kỷ niệm', 'error');
+            }
+        }
+
+        // Lấy đường dẫn ảnh từ server
+        function getMediaPath(filename) {
+            if (!filename) {
+                console.error('Filename is undefined or empty');
+                return '';
+            }
+
+            return `/anhkiniem/${filename}`;
+        }
+
+        // Hiển thị kỷ niệm
+        async function renderMemories(filter = 'all') {
+            const galleryGrid = document.getElementById('galleryGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (!galleryGrid || !emptyState) return;
+
+            galleryGrid.innerHTML = '<div class="loading-spinner" style="display: block; grid-column: 1 / -1;"><div class="spinner"></div><p>Đang tải kỷ niệm...</p></div>';
+
+            try {
+                const memories = await loadMemoriesFromServer();
+                console.log('Memories to render:', memories);
+
+                galleryGrid.innerHTML = '';
+
+                if (!memories || memories.length === 0) {
+                    galleryGrid.appendChild(emptyState);
+                    emptyState.style.display = 'block';
+                    return;
+                }
+
+                emptyState.style.display = 'none';
+
+                const filteredMemories = filter === 'all' 
+                    ? memories 
+                    : memories.filter(memory => memory.type === filter);
+
+                console.log('Filtered memories:', filteredMemories);
+
+                filteredMemories.forEach(memory => {
+                    const memoryItem = document.createElement('div');
+                    memoryItem.className = 'memory-item';
+                    memoryItem.setAttribute('data-type', memory.type);
+                    memoryItem.setAttribute('data-filename', memory.filename);
+
+                    const filePath = getMediaPath(memory.filename);
+                    console.log('Loading media from path:', filePath, 'for file:', memory.filename);
+
+                    if (memory.type === 'image') {
+                        memoryItem.innerHTML = `
+                            <img class="memory-img" src="${filePath}" alt="${memory.title}" loading="lazy" 
+                                 onload="console.log('Ảnh tải thành công:', '${memory.filename}')"
+                                 onerror="handleImageError(this, '${memory.filename}', '${filePath}')">
+                            <div class="memory-overlay">
+                                <h3 class="memory-title">${memory.title}</h3>
+                                <p class="memory-date">${memory.date}</p>
+                            </div>
+                            <div class="memory-actions">
+                                <button class="memory-action" onclick="event.stopPropagation(); viewMemory('${memory.filename}', '${memory.type}')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="memory-action" onclick="event.stopPropagation(); deleteMemory('${memory.filename}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        `;
+                    } else if (memory.type === 'video') {
+                        memoryItem.innerHTML = `
+                            <video class="memory-video" preload="metadata" 
+                                   onerror="handleVideoError(this, '${memory.filename}')">
+                                <source src="${filePath}" type="video/mp4">
+                            </video>
+                            <div class="memory-overlay">
+                                <h3 class="memory-title">${memory.title}</h3>
+                                <p class="memory-date">${memory.date}</p>
+                            </div>
+                            <div class="memory-actions">
+                                <button class="memory-action" onclick="event.stopPropagation(); viewMemory('${memory.filename}', '${memory.type}')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="memory-action" onclick="event.stopPropagation(); deleteMemory('${memory.filename}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        `;
+                    } else {
+                        memoryItem.innerHTML = `
+                            <div class="error-placeholder">
+                                <div class="error-icon">
+                                    <i class="fas fa-question-circle"></i>
+                                </div>
+                                <p>Loại file không xác định</p>
+                                <p>${memory.filename}</p>
+                            </div>
+                            <div class="memory-overlay">
+                                <h3 class="memory-title">${memory.title}</h3>
+                                <p class="memory-date">${memory.date}</p>
+                            </div>
+                            <div class="memory-actions">
+                                <button class="memory-action" onclick="event.stopPropagation(); deleteMemory('${memory.filename}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        `;
+                    }
+
+                    galleryGrid.appendChild(memoryItem);
+                });
+            } catch (error) {
+                console.error('Lỗi khi render memories:', error);
+                galleryGrid.innerHTML = '<div class="error-placeholder" style="grid-column: 1 / -1; padding: 40px;"><div class="error-icon"><i class="fas fa-exclamation-triangle"></i></div><p>Lỗi khi tải danh sách kỷ niệm</p><button class="memory-action" onclick="refreshMemories()" style="margin-top: 10px;"><i class="fas fa-redo"></i> Thử lại</button></div>';
+            }
+        }
+
+        // Xử lý lỗi ảnh
+        function handleImageError(imgElement, filename, filePath) {
+            console.error('Lỗi tải ảnh:', filename, 'từ:', filePath);
+            const memoryItem = imgElement.closest('.memory-item');
+            if (memoryItem) {
+                memoryItem.innerHTML = `
+                    <div class="error-placeholder">
+                        <div class="error-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <p>Không thể tải ảnh</p>
+                        <p>${filename}</p>
+                        <button class="memory-action" onclick="retryLoadImage(this.parentElement.parentElement, '${filename}')" style="margin-top: 10px;">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+                    <div class="memory-overlay">
+                        <h3 class="memory-title">${filename}</h3>
+                        <p class="memory-date">Lỗi tải ảnh</p>
+                    </div>
+                    <div class="memory-actions">
+                        <button class="memory-action" onclick="event.stopPropagation(); deleteMemory('${filename}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Xử lý lỗi video
+        function handleVideoError(videoElement, filename) {
+            console.error('Lỗi tải video:', filename);
+            const memoryItem = videoElement.closest('.memory-item');
+            if (memoryItem) {
+                memoryItem.innerHTML = `
+                    <div class="error-placeholder">
+                        <div class="error-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <p>Không thể tải video</p>
+                        <p>${filename}</p>
+                    </div>
+                    <div class="memory-overlay">
+                        <h3 class="memory-title">${filename}</h3>
+                        <p class="memory-date">Lỗi tải video</p>
+                    </div>
+                    <div class="memory-actions">
+                        <button class="memory-action" onclick="event.stopPropagation(); deleteMemory('${filename}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Hàm thử tải lại ảnh
+        function retryLoadImage(memoryItem, filename) {
+            console.log('Thử tải lại ảnh:', filename);
+            const filePath = getMediaPath(filename) + '?retry=' + Date.now();
+
+            memoryItem.innerHTML = `
+                <img class="memory-img" src="${filePath}" alt="${filename}" loading="lazy" 
+                     onload="console.log('Ảnh tải thành công:', '${filename}')"
+                     onerror="handleImageError(this, '${filename}', '${filePath}')">
+                <div class="memory-overlay">
+                    <h3 class="memory-title">${filename}</h3>
+                    <p class="memory-date">Đang tải...</p>
+                </div>
+                <div class="memory-actions">
+                    <button class="memory-action" onclick="event.stopPropagation(); viewMemory('${filename}', 'image')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="memory-action" onclick="event.stopPropagation(); deleteMemory('${filename}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        // Xem kỷ niệm trong modal
+        function viewMemory(filename, type) {
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modalImg');
+            const modalVideo = document.getElementById('modalVideo');
+            const modalImgContainer = document.getElementById('modalImgContainer');
+            const modalTitle = document.querySelector('.modal-title');
+            const modalControls = document.getElementById('modalControls');
+
+            if (!modal || !modalImg || !modalVideo || !modalImgContainer || !modalTitle || !modalControls) return;
+
+            // Reset zoom và pan state
+            resetZoom();
+
+            const filePath = getMediaPath(filename);
+            console.log('Viewing in modal:', filename, 'from path:', filePath);
+
+            if (type === 'image') {
+                modalImg.style.display = 'block';
+                modalVideo.style.display = 'none';
+                modalImg.src = filePath;
+                modalTitle.textContent = 'Kỷ niệm';
+                modalControls.style.display = 'flex';
+                modalImgContainer.style.cursor = 'grab';
+            } else {
+                modalImg.style.display = 'none';
+                modalVideo.style.display = 'block';
+                modalVideo.src = filePath;
+                modalTitle.textContent = 'Kỷ niệm';
+                modalControls.style.display = 'none';
+                modalImgContainer.style.cursor = 'default';
+            }
+
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        }
+
+        // Đóng modal
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            const modalVideo = document.getElementById('modalVideo');
+
+            modal.classList.remove('show');
+            setTimeout(() => {
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+
+                if (modalVideo) {
+                    modalVideo.pause();
+                    modalVideo.currentTime = 0;
+                }
+
+                // Reset zoom và pan khi đóng modal
+                resetZoom();
+            }, 300);
+        }
+
+        // Zoom functions
+        function zoomIn() {
+            if (currentZoom < MAX_ZOOM) {
+                currentZoom += ZOOM_STEP;
+                applyZoom();
+            }
+        }
+
+        function zoomOut() {
+            if (currentZoom > MIN_ZOOM) {
+                currentZoom -= ZOOM_STEP;
+                applyZoom();
+            }
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            const modalImgContainer = document.getElementById('modalImgContainer');
+            if (modalImgContainer) {
+                modalImgContainer.style.transform = `scale(${currentZoom})`;
+                modalImgContainer.style.left = '0px';
+                modalImgContainer.style.top = '0px';
+            }
+        }
+
+        function applyZoom() {
+            const modalImgContainer = document.getElementById('modalImgContainer');
+            if (modalImgContainer) {
+                modalImgContainer.style.transform = `scale(${currentZoom})`;
+            }
+        }
+
+        // Hiển thị thông báo
+        function showNotification(message, type = 'info') {
+            const oldNotifications = document.querySelectorAll('.notification');
+            oldNotifications.forEach(notification => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            });
+
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        // Kiểm tra kích thước file
+        function validateFile(file) {
+            const maxSize = 20 * 1024 * 1024; // ĐÃ SỬA: 20MB thay vì 50MB
+            if (file.size > maxSize) {
+                showNotification('File quá lớn. Vui lòng chọn file nhỏ hơn 20MB.', 'error');
+                return false;
+            }
+            return true;
+        }
+
+        // Làm mới danh sách ảnh từ server
+        async function refreshMemories() {
+            const refreshBtn = document.getElementById('refreshBtn');
+            if (!refreshBtn) return;
+
+            const originalText = refreshBtn.innerHTML;
+            const currentFilter = document.querySelector('.filter-btn.active')?.getAttribute('data-filter') || 'all';
+
+            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
+            refreshBtn.disabled = true;
+
+            try {
+                await renderMemories(currentFilter);
+                showNotification('Đã làm mới danh sách ảnh', 'success');
+            } catch (error) {
+                console.error('Lỗi khi làm mới danh sách:', error);
+                showNotification('Lỗi khi làm mới danh sách', 'error');
+            } finally {
+                refreshBtn.innerHTML = originalText;
+                refreshBtn.disabled = false;
+            }
+        }
+
+        // Xử lý file được chọn
+        function handleFileSelect(files) {
+            const fileCounter = document.getElementById('fileCounter');
+            const uploadArea = document.getElementById('uploadArea');
+
+            if (files.length > 0) {
+                fileCounter.textContent = files.length;
+                fileCounter.style.display = 'flex';
+                uploadArea.classList.add('active');
+
+                let validFiles = 0;
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    if (validateFile(file)) {
+                        const type = file.type.startsWith('image/') ? 'image' : 'video';
+                        addMemory(file, type);
+                        validFiles++;
+                    }
+                }
+
+                if (validFiles === 0) {
+                    fileCounter.style.display = 'none';
+                    uploadArea.classList.remove('active');
+                }
+            } else {
+                fileCounter.style.display = 'none';
+                uploadArea.classList.remove('active');
+            }
+        }
+
+        // Khởi tạo khi trang tải xong
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingHearts();
+
+            // Tải danh sách ảnh từ server và render
+            renderMemories();
+
+            // Xử lý tải lên tệp
+            const fileInput = document.getElementById('fileInput');
+            const uploadArea = document.getElementById('uploadArea');
+
+            // Click vào vùng upload để mở file dialog - ĐÃ FIX
+            if (uploadArea) {
+                uploadArea.addEventListener('click', function(e) {
+                    // Ngăn chặn sự kiện click lan truyền
+                    e.stopPropagation();
+                    fileInput.click();
+                });
+            }
+
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    handleFileSelect(e.target.files);
+                    fileInput.value = '';
+                });
+            }
+
+            // Kéo thả tệp
+            if (uploadArea) {
+                uploadArea.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    uploadArea.style.borderColor = 'var(--primary-color)';
+                    uploadArea.style.background = 'rgba(255, 255, 255, 0.1)';
+                    uploadArea.classList.add('active');
+                });
+
+                uploadArea.addEventListener('dragleave', function() {
+                    uploadArea.style.borderColor = 'var(--secondary-color)';
+                    uploadArea.style.background = 'transparent';
+                    const fileCounter = document.getElementById('fileCounter');
+                    if (!fileCounter.style.display || fileCounter.style.display === 'none') {
+                        uploadArea.classList.remove('active');
+                    }
+                });
+
+                uploadArea.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    uploadArea.style.borderColor = 'var(--secondary-color)';
+                    uploadArea.style.background = 'transparent';
+
+                    handleFileSelect(e.dataTransfer.files);
+                });
+            }
+
+            // Lọc kỷ niệm
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.id === 'refreshBtn') {
+                        refreshMemories();
+                        return;
+                    }
+
+                    filterButtons.forEach(btn => {
+                        if (btn.id !== 'refreshBtn') {
+                            btn.classList.remove('active');
+                        }
+                    });
+
+                    this.classList.add('active');
+
+                    const filter = this.getAttribute('data-filter');
+                    renderMemories(filter);
+                });
+            });
+
+            // Đóng modal
+            const modalClose = document.getElementById('modalClose');
+            const modal = document.getElementById('modal');
+
+            if (modalClose) {
+                modalClose.addEventListener('click', closeModal);
+            }
+
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+            }
+
+            // Đóng modal bằng phím ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+
+            // Zoom controls
+            const zoomInBtn = document.getElementById('zoomInBtn');
+            const zoomOutBtn = document.getElementById('zoomOutBtn');
+            const resetZoomBtn = document.getElementById('resetZoomBtn');
+            const modalImgContainer = document.getElementById('modalImgContainer');
+
+            if (zoomInBtn) {
+                zoomInBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    zoomIn();
+                });
+            }
+
+            if (zoomOutBtn) {
+                zoomOutBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    zoomOut();
+                });
+            }
+
+            if (resetZoomBtn) {
+                resetZoomBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    resetZoom();
+                });
+            }
+
+            // Drag để di chuyển ảnh khi zoom
+            if (modalImgContainer) {
+                modalImgContainer.addEventListener('mousedown', function(e) {
+                    if (currentZoom <= 1) return;
+                    
+                    isDragging = true;
+                    startX = e.pageX - modalImgContainer.offsetLeft;
+                    startY = e.pageY - modalImgContainer.offsetTop;
+                    modalImgContainer.style.cursor = 'grabbing';
+                });
+
+                document.addEventListener('mousemove', function(e) {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    
+                    const x = e.pageX - startX;
+                    const y = e.pageY - startY;
+                    modalImgContainer.style.left = x + 'px';
+                    modalImgContainer.style.top = y + 'px';
+                });
+
+                document.addEventListener('mouseup', function() {
+                    isDragging = false;
+                    modalImgContainer.style.cursor = 'grab';
+                });
+
+                // Zoom bằng scroll
+                modalImgContainer.addEventListener('wheel', function(e) {
+                    if (modalImg.style.display !== 'block') return;
+                    
+                    e.preventDefault();
+                    if (e.deltaY < 0) {
+                        zoomIn();
+                    } else {
+                        zoomOut();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
